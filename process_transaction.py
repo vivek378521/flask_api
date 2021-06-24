@@ -3,18 +3,18 @@ import json
 
 
 def calculate_delivery_cost(distance):
-    with open("delivery_pricing.json") as f:
+    with open("delivery_pricing.json") as f:  # json file contains delivery information
         data = f.read()
     json_pricing_data = json.loads(data)
     for price in json_pricing_data["delivery_cost"]:
-        if price["from"] < distance <= price["to"]:
+        if price["from"] < distance <= price["to"]:  # checking the range of delivery and cost
             return int(price["price"])*100  # converting rupee to paisa
 
 
 def calculate_discount(offer, delivery):
     if offer["offer"]["offer_type"] == "FLAT":  # checking the kind of offer applied
         return offer["offer"]["offer_val"]
-    elif offer["offer"]["offer_type"] == "DELIVERY":
+    elif offer["offer"]["offer_type"] == "DELIVERY": # if offer is DELIVERY then by pass delivery charges
         return delivery
 
 
@@ -28,7 +28,7 @@ def get_total_amount(json_data):
     order_total += delivery_charges
     if "offer" in json_data:
         discount = calculate_discount(json_data, delivery_charges)
-    if discount > order_total:
+    if discount > order_total:  # checking if discount isn't more than the order total
         return "Invalid Discount Applied"
     return order_total - discount
 

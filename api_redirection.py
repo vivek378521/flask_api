@@ -7,9 +7,9 @@ app.config["DEBUG"] = True
 
 @app.route('/transaction/add', methods=['POST'])
 def api_transaction_add():
-    if request.is_json:
+    if request.is_json:  # check if the request is json or not
         posted_data = request.get_json()
-        order_total = process.get_total_amount(posted_data)
+        order_total = process.get_total_amount(posted_data)  # processing the request
     else:
         return "Invalid Json Body", 400
 
